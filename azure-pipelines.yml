@@ -68,9 +68,10 @@ stages:
           steps:
             - download: current
               artifact: manifests
+
     - task: KubernetesManifest@0
-      displayName: Create imagePullSecret
-      inputs:
+       displayName: Create imagePullSecret
+       inputs:
           action: createSecret
           secretName: $(imagePullSecret)
           dockerRegistryEndpoint: 'Container Registry Connection'
