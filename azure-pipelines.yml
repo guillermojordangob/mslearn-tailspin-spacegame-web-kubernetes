@@ -1,6 +1,7 @@
 trigger:
 - 'master'
 variables:
+  group: VariableGroup
   buildConfiguration: 'Release'
   leaderboardRepository: 'leaderboard'
   webRepository: 'web'
