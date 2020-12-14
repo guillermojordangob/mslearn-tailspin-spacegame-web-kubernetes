@@ -11,7 +11,7 @@ variables:
 stages:
 - stage: 'Build'
   displayName: 'Build and push'
-  jobs:  
+  jobs:
   - job: 'Build'
     displayName: 'Build job'
     pool:
@@ -27,8 +27,7 @@ stages:
         containerRegistry: 'Container Registry Connection'
         tags: |
           $(tag)
-  
-    - task: Docker@2 
+    - task: Docker@2
       displayName: 'Build and push the leaderboard image to container registry'
       inputs:
         inputs:
@@ -69,20 +68,17 @@ stages:
           steps:
             - download: current
               artifact: manifests
-
     - task: KubernetesManifest@0
       displayName: Create imagePullSecret
       inputs:
-           action: createSecret
-           secretName: $(imagePullSecret)
-           dockerRegistryEndpoint: 'Container Registry Connection'
-           kubernetesServiceConnection: 'Kubernetes Cluster Connection'
-           namespace: 'default'
-
-
+          action: createSecret
+          secretName: $(imagePullSecret)
+          dockerRegistryEndpoint: 'Container Registry Connection'
+          kubernetesServiceConnection: 'Kubernetes Cluster Connection'
+          namespace: 'default'
     - task: KubernetesManifest@0
-  displayName: Deploy to Kubernetes cluster
-  inputs:
+      displayName: Deploy to Kubernetes cluster
+      inputs:
     action: deploy
     kubernetesServiceConnection: 'Kubernetes Cluster Connection'
     namespace: 'default'
@@ -94,3 +90,4 @@ stages:
     containers: |
       $(RegistryName)/$(webRepository):$(tag)
       $(RegistryName)/$(leaderboardRepository):$(tag)
+
