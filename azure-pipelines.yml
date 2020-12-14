@@ -90,3 +90,11 @@ stages:
       containers: |
         $(RegistryName)/$(webRepository):$(tag)
         $(RegistryName)/$(leaderboardRepository):$(tag)
+- task: Docker@2
+  inputs:
+    containerRegistry: 'Container Registry Connection'
+    repository: '$(leaderboardRepository)'
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
+    buildContext: '$(Build.Repository.LocalPath)'
+    tags: '$(tag)'
