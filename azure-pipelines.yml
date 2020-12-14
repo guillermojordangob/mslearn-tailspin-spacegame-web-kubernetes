@@ -28,6 +28,7 @@ stages:
     - task: Docker@2
       displayName: 'Build and push the leaderboard image to container registry'
       inputs:
+        inputs:
           command: buildAndPush
           buildContext: $(Build.Repository.LocalPath)
           repository: $(leaderboardRepository)
@@ -73,8 +74,8 @@ stages:
               kubernetesServiceConnection: 'Kubernetes Cluster Connection'
               namespace: 'default'
           - task: KubernetesManifest@0
-            displayName: Deploy to Kubernetes cluster
-            inputs:
+              displayName: Deploy to Kubernetes cluster
+              inputs:
                 action: deploy
                 kubernetesServiceConnection: 'Kubernetes Cluster Connection'
                 namespace: 'default'
@@ -84,5 +85,5 @@ stages:
                 imagePullSecrets: |
                   $(imagePullSecret)
                 containers: |
-                  tailspinspacegame11594.azurecr.io/$(webRepository):$(tag)
-                  tailspinspacegame11594.azurecr.io/$(leaderboardRepository):$(tag)
+                  $(RegistryName)/$(webRepository):$(tag)
+                  $(RegistryName)/$(leaderboardRepository):$(tag)
